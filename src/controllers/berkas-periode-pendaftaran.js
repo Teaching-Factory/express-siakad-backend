@@ -4,14 +4,14 @@ const getAllBerkasPeriodePendaftaran = async (req, res, next) => {
   try {
     // Ambil semua data berkas_periode_pendaftarans dari database
     const berkas_periode_pendaftarans = await BerkasPeriodePendaftaran.findAll({
-      include: [{ model: JenisBerkas }, { model: PeriodePendaftaran }]
+      include: [{ model: JenisBerkas, as: "JenisBerkas" }, { model: PeriodePendaftaran }],
     });
 
     // Kirim respons JSON jika berhasil
     res.status(200).json({
       message: "<===== GET All Berkas Periode Pendaftaran Success",
       jumlahData: berkas_periode_pendaftarans.length,
-      data: berkas_periode_pendaftarans
+      data: berkas_periode_pendaftarans,
     });
   } catch (error) {
     next(error);
@@ -25,26 +25,26 @@ const getBerkasPeriodePendaftaranById = async (req, res, next) => {
 
     if (!berkasPeriodePendaftaranId) {
       return res.status(400).json({
-        message: "Berkas Periode Pendaftaran ID is required"
+        message: "Berkas Periode Pendaftaran ID is required",
       });
     }
 
     // Cari data berkas_periode_pendaftaran berdasarkan ID di database
     const berkas_periode_pendaftaran = await BerkasPeriodePendaftaran.findByPk(berkasPeriodePendaftaranId, {
-      include: [{ model: JenisBerkas }, { model: PeriodePendaftaran }]
+      include: [{ model: JenisBerkas, as: "JenisBerkas" }, { model: PeriodePendaftaran }],
     });
 
     // Jika data tidak ditemukan, kirim respons 404
     if (!berkas_periode_pendaftaran) {
       return res.status(404).json({
-        message: `<===== Berkas Periode Pendaftaran With ID ${berkasPeriodePendaftaranId} Not Found:`
+        message: `<===== Berkas Periode Pendaftaran With ID ${berkasPeriodePendaftaranId} Not Found:`,
       });
     }
 
     // Kirim respons JSON jika berhasil
     res.status(200).json({
       message: `<===== GET Berkas Periode Pendaftaran By ID ${berkasPeriodePendaftaranId} Success:`,
-      data: berkas_periode_pendaftaran
+      data: berkas_periode_pendaftaran,
     });
   } catch (error) {
     next(error);
@@ -58,29 +58,29 @@ const getBerkasPeriodePendaftaranByPeriodePendaftaranId = async (req, res, next)
 
     if (!periodePendaftaranId) {
       return res.status(400).json({
-        message: "Periode Pendaftaran ID is required"
+        message: "Periode Pendaftaran ID is required",
       });
     }
 
     // Cari data berkas_periode_pendaftaran berdasarkan ID periode_pendaftaran di database
     const berkas_periode_pendaftaran = await BerkasPeriodePendaftaran.findAll({
       where: {
-        id_periode_pendaftaran: periodePendaftaranId
+        id_periode_pendaftaran: periodePendaftaranId,
       },
-      include: [{ model: JenisBerkas }, { model: PeriodePendaftaran }]
+      include: [{ model: JenisBerkas, as: "JenisBerkas" }, { model: PeriodePendaftaran }],
     });
 
     // Jika data tidak ditemukan, kirim respons 404
     if (!berkas_periode_pendaftaran) {
       return res.status(404).json({
-        message: `<===== Berkas Periode Pendaftaran With ID Periode Pendaftaran ${periodePendaftaranId} Not Found:`
+        message: `<===== Berkas Periode Pendaftaran With ID Periode Pendaftaran ${periodePendaftaranId} Not Found:`,
       });
     }
 
     // Kirim respons JSON jika berhasil
     res.status(200).json({
       message: `<===== GET Berkas Periode Pendaftaran By ID Periode Pendaftaran ${periodePendaftaranId} Success:`,
-      data: berkas_periode_pendaftaran
+      data: berkas_periode_pendaftaran,
     });
   } catch (error) {
     next(error);
@@ -90,5 +90,5 @@ const getBerkasPeriodePendaftaranByPeriodePendaftaranId = async (req, res, next)
 module.exports = {
   getAllBerkasPeriodePendaftaran,
   getBerkasPeriodePendaftaranById,
-  getBerkasPeriodePendaftaranByPeriodePendaftaranId
+  getBerkasPeriodePendaftaranByPeriodePendaftaranId,
 };
